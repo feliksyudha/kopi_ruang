@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Kopi Ruang – Specialty Coffee Shop & Roastery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            emeraldDark: '#122420',
+            emeraldMid: '#182f2a',
+            emeraldLight: '#24423b',
+            gold: '#c8ab7e',
+            goldLight: '#dfd0b8',
+            sand: '#f4efe6',
+            sandDark: '#e8e0d2',
+            ink: '#172622',
+            muted: '#596863',
+            cardLight: '#fcf9f2'
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom subtle grain texture overlay */
+    .bg-grain {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+    }
+
+    /* Smooth reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: all 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #122420;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2f4f47;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #c8ab7e;
+    }
+
+    /* Tab transition */
+    .menu-grid {
+      transition: opacity 0.3s ease;
+    }
+  </style>
+</head>
+<body class="bg-sand text-ink font-sans antialiased selection:bg-gold selection:text-emeraldDark bg-grain">
+
+  <!-- Sticky Glassmorphism Navigation -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-emeraldDark/90 backdrop-blur-md border-b border-gold/15">
+    <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+      <!-- Brand with Custom Vector Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <svg class="w-9 h-9 text-gold group-hover:text-goldLight transition-colors shrink-0" viewBox="0 0 120 125" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M26 112V54C26 35.2223 41.2223 20 60 20C78.7777 20 94 35.2223 94 54V112" />
+          <line x1="12" y1="112" x2="108" y2="112" />
+          <path d="M43 82C46 98 54 103 61 103C68 103 74 96 74 83H43Z" />
+          <path d="M43 82C40 80 37 78 35 76" />
+          <path d="M74 84C82 84 85 93 77 97C73 99 70 98 69 96" />
+          <path d="M46 89C53 91 63 91 71 88" />
+          <path d="M51 96C56 97 62 97 67 95" />
+          <path d="M58 82C58 68 59 54 61 38" />
+          <path d="M58 75C51 73 46 67 45 60C52 60 57 66 58 75Z" />
+          <path d="M59 69C66 67 71 61 72 54C65 54 60 60 59 69Z" />
+          <path d="M59 57C52 54 47 48 47 41C54 42 58 48 59 57Z" />
+          <path d="M60 51C67 49 72 43 73 36C66 37 61 43 60 51Z" />
+          <path d="M61 38C57 32 58 26 62 23C65 27 65 33 61 38Z" />
+        </svg>
+        <div class="flex flex-col">
+          <span class="font-sans text-base md:text-lg font-medium tracking-[0.22em] text-gold group-hover:text-goldLight transition-colors leading-none">
+            KOPİ RUANG
+          </span>
+          <span class="text-[9px] tracking-[0.28em] text-gold/75 uppercase mt-1 leading-none">
+            Specialty Shop
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Links -->
+      <div class="hidden md:flex items-center gap-9 text-sm font-normal tracking-wide text-sand/85">
+        <a href="#cerita" class="hover:text-gold transition-colors">Cerita Kami</a>
+        <a href="#menu" class="hover:text-gold transition-colors">Menu Pilihan</a>
+        <a href="#filosofi" class="hover:text-gold transition-colors">Filosofi</a>
+        <a href="#galeri" class="hover:text-gold transition-colors">Suasana</a>
+      </div>
+
+      <!-- CTA & Mobile Toggle -->
+      <div class="flex items-center gap-3">
+        <a href="#kunjungi" class="px-5 py-2.5 rounded-full bg-gold text-emeraldDark text-sm font-medium hover:bg-goldLight transition-all duration-300 shadow-sm hover:shadow">
+          Kunjungi Kafe
+        </a>
+        <button id="mobile-menu-btn" aria-label="Buka Menu" class="md:hidden p-2 text-gold hover:text-goldLight focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown -->
+    <div id="mobile-menu" class="hidden md:hidden bg-emeraldDark border-b border-gold/20 px-6 py-5 space-y-4 text-sand/90 text-base">
+      <a href="#cerita" class="block hover:text-gold transition-colors mobile-link">Cerita Kami</a>
+      <a href="#menu" class="block hover:text-gold transition-colors mobile-link">Menu Pilihan</a>
+      <a href="#filosofi" class="block hover:text-gold transition-colors mobile-link">Filosofi</a>
+      <a href="#galeri" class="block hover:text-gold transition-colors mobile-link">Suasana</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="relative bg-emeraldDark text-sand pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden">
+    <!-- Subtle Decorative Background Glow -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emeraldLight/35 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="relative max-w-4xl mx-auto px-6 text-center">
+      <!-- Custom Kopi Ruang Arch & Botanical Pour-Over Vector Logo -->
+      <div class="mb-9 flex flex-col items-center justify-center">
+        <svg class="w-40 sm:w-44 md:w-48 h-auto text-gold drop-shadow-md" viewBox="0 0 220 205" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo Kopi Ruang Specialty Shop">
+          <!-- Outer Arch Frame -->
+          <path d="M58 144V74C58 45.2812 81.2812 22 110 22C138.719 22 162 45.2812 162 74V144" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+          <!-- Horizon Base Line -->
+          <line x1="36" y1="144" x2="184" y2="144" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+          
+          <!-- Pour-Over Server / Kettle Vessel -->
+          <path d="M84 104C87 125 99 133 111 133C122 133 130 123 130 105H84Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Spout -->
+          <path d="M84 105C79 102 75 99 73 96C75 96 79 98 85 102" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Handle -->
+          <path d="M130 106C141 106 145 119 134 125C128 128 124 126 123 123" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Swirl / Coffee Ripples inside Vessel -->
+          <path d="M88 113C98 117 113 117 126 112" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M94 122C102 125 113 125 121 121" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+
+          <!-- Coffee Plant Stem & Leaves -->
+          <path d="M107 104C107 85 109 67 112 45" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+          <!-- Bottom Left Leaf -->
+          <path d="M107 95C97 92 90 84 89 75C98 75 105 83 107 95Z" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/>
+          <!-- Bottom Right Leaf -->
+          <path d="M108 87C118 84 125 76 126 67C117 67 110 75 108 87Z" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/>
+          <!-- Middle Left Leaf -->
+          <path d="M109 71C99 67 93 59 93 50C102 51 108 59 109 71Z" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/>
+          <!-- Middle Right Leaf -->
+          <path d="M110 64C120 61 127 53 128 44C119 45 112 53 110 64Z" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/>
+          <!-- Top Crown Leaf -->
+          <path d="M112 45C107 37 109 29 114 25C118 30 117 38 112 45Z" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/>
+
+          <!-- Brand Typography Matching Logo -->
+          <text x="110" y="172" text-anchor="middle" fill="currentColor" font-family="'Plus Jakarta Sans', sans-serif" font-size="18.5" font-weight="400" letter-spacing="0.28em">
+            KOPİ RUANG
+          </text>
+          <text x="110" y="189" text-anchor="middle" fill="currentColor" fill-opacity="0.85" font-family="'Plus Jakarta Sans', sans-serif" font-size="8.2" font-weight="500" letter-spacing="0.32em">
+            SPECIALTY SHOP
+          </text>
+        </svg>
+      </div>
+
+      <h1 class="font-serif text-4xl sm:text-5xl md:text-7xl font-medium tracking-tight leading-[1.08] max-w-3xl mx-auto mb-6 text-sand">
+        Ruang kecil untuk <span class="italic text-gold">kopi yang baik.</span>
+      </h1>
+
+      <p class="text-sand/80 text-base md:text-lg font-light max-w-xl mx-auto mb-10 leading-relaxed">
+        Specialty coffee dari biji pilihan nusantara, diseduh pelan, disajikan hangat. Datang, duduk, dan ambil jeda sejenak dari riuhnya hari.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="#kunjungi" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gold text-emeraldDark font-medium hover:bg-goldLight transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+          Kunjungi Kafe
+        </a>
+        <a href="#menu" class="w-full sm:w-auto px-8 py-4 rounded-full border border-gold/60 text-gold font-normal hover:bg-gold/10 hover:border-gold transition-all duration-300">
+          Lihat Daftar Menu
+        </a>
+      </div>
+
+      <!-- Quick Highlights Bar -->
+      <div class="mt-16 pt-8 border-t border-gold/15 grid grid-cols-3 gap-4 max-w-2xl mx-auto text-center">
+        <div>
+          <span class="block font-serif text-2xl md:text-3xl text-gold">100%</span>
+          <span class="text-xs md:text-sm text-sand/70">Arabika Nusantara</span>
+        </div>
+        <div class="border-x border-gold/15">
+          <span class="block font-serif text-2xl md:text-3xl text-gold">Fresh</span>
+          <span class="text-xs md:text-sm text-sand/70">Disangrai Tiap Pekan</span>
+        </div>
+        <div>
+          <span class="block font-serif text-2xl md:text-3xl text-gold">08–22</span>
+          <span class="text-xs md:text-sm text-sand/70">Buka Setiap Hari</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Story / Intro Section -->
+    <section id="cerita" class="py-24 md:py-32 max-w-6xl mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center reveal">
+        <!-- Left Image Composition -->
+        <div class="lg:col-span-5 relative">
+          <div class="aspect-[4/5] rounded-2xl overflow-hidden shadow-xl border border-gold/30">
+            <img 
+              src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80" 
+              alt="Proses menyeduh kopi manual V60 di Kopi Ruang" 
+              class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+              loading="lazy"
+            >
+          </div>
+          <!-- Floating Quote Badge -->
+          <div class="hidden sm:block absolute -bottom-6 -right-6 bg-emeraldDark text-sand p-6 rounded-2xl shadow-xl max-w-[240px] border border-gold/30">
+            <p class="font-serif italic text-lg text-gold leading-snug">
+              "Seduhan yang pelan selalu punya cerita yang lebih dalam."
+            </p>
+          </div>
+        </div>
+
+        <!-- Right Text Content -->
+        <div class="lg:col-span-7 lg:pl-6">
+          <span class="uppercase tracking-[0.2em] text-gold font-medium text-xs block mb-3">
+            Tentang Kopi Ruang
+          </span>
+          <h2 class="font-serif text-4xl md:text-5xl lg:text-[54px] font-medium leading-[1.1] text-ink mb-6">
+            Tenang di dalam, hidup di setiap cangkir.
+          </h2>
+          <div class="space-y-5 text-muted text-base md:text-lg font-light leading-relaxed">
+            <p>
+              Kopi Ruang dibuka dengan satu ide sederhana: kopi enak layak dinikmati di tempat yang membuatmu betah berlama-lama tanpa merasa terburu-buru.
+            </p>
+            <p>
+              Kami bermitra langsung dengan petani kopi lokal di berbagai dataran tinggi Indonesia—mulai dari Gayo, Priangan, hingga Flores. Setiap batch kami sangrai secara hati-hati dalam skala kecil untuk menjaga karakter alami buah kopinya.
+            </p>
+            <p>
+              Di balik bar, barista kami menyeduhnya satu per satu dengan presisi suhu dan rasio. Tanpa tergesa, tanpa berlebihan.
+            </p>
+          </div>
+
+          <!-- Signature Footer -->
+          <div class="mt-8 pt-8 border-t border-ink/10 flex items-center gap-4">
+            <div class="w-11 h-11 rounded-full bg-emeraldDark text-gold flex items-center justify-center font-serif italic text-xl">
+              KR
+            </div>
+            <div>
+              <p class="font-medium text-ink text-sm">Tim Barista & Roaster</p>
+              <p class="text-xs text-muted">Menyeduh sepenuh hati sejak hari pertama</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Menu Section with Interactive Category Filter -->
+    <section id="menu" class="bg-emeraldDark text-sand py-24 md:py-32 relative">
+      <div class="max-w-5xl mx-auto px-6 reveal">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div>
+            <span class="uppercase tracking-[0.2em] text-gold text-xs font-medium block mb-2">
+              Curated Selection
+            </span>
+            <h2 class="font-serif text-4xl md:text-5xl text-gold font-medium">
+              Pilihan Favorit
+            </h2>
+          </div>
+
+          <!-- Filter Tabs -->
+          <div class="inline-flex flex-wrap gap-2 bg-emeraldMid p-1.5 rounded-full border border-gold/20 self-start md:self-auto" role="tablist">
+            <button data-filter="all" class="menu-tab active px-4 py-2 rounded-full text-xs md:text-sm font-medium transition-all bg-gold text-emeraldDark">
+              Semua
+            </button>
+            <button data-filter="kopi" class="menu-tab px-4 py-2 rounded-full text-xs md:text-sm font-normal text-sand/80 hover:text-gold transition-all">
+              Kopi & Manual Brew
+            </button>
+            <button data-filter="nonkopi" class="menu-tab px-4 py-2 rounded-full text-xs md:text-sm font-normal text-sand/80 hover:text-gold transition-all">
+              Non-Kopi
+            </button>
+            <button data-filter="pastry" class="menu-tab px-4 py-2 rounded-full text-xs md:text-sm font-normal text-sand/80 hover:text-gold transition-all">
+              Roti & Pastry
+            </button>
+          </div>
+        </div>
+
+        <!-- Menu Items Grid -->
+        <div id="menu-list" class="grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-2 menu-grid">
+          <!-- Item 1 -->
+          <div data-category="kopi" class="menu-item py-5 border-b border-emeraldLight/80 flex justify-between items-start gap-4 group">
+            <div>
+              <div class="flex items-center gap-2.5">
+                <h3 class="font-serif text-2xl md:text-[26px] text-sand group-hover:text-gold transition-colors">Espresso</h3>
+              </div>
+              <p class="text-sand/70 text-sm md:text-[15px] font-light mt-1">
+                Pekat, manis alami cokelat hitam, dengan akhir rasa yang bersih.
+              </p>
+            </div>
+            <span class="font-serif text-xl text-gold shrink-0 pt-1">24k</span>
+          </div>
+
+          <!-- Item 2 -->
+          <div data-category="kopi" class="menu-item py-5 border-b border-emeraldLight/80 flex justify-between items-start gap-4 group">
+            <div>
+              <div class="flex items-center gap-2.5">
+                <h3 class="font-serif text-2xl md:text-[26px] text-sand group-hover:text-gold transition-colors">Es Kopi Susu Ruang</h3>
+                <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-gold/20 text-gold border border-gold/30">Signature</span>
+              </div>
+              <p class="text-sand/70 text-sm md:text-[15px] font-light mt-1">
+                Racikan rumah espresso blend dengan gula aren organik dan susu segar creamy.
+              </p>
+            </div>
+            <span class="font-serif text-xl text-gold shrink-0 pt-1">28k</span>
+          </div>
+
+          <!-- Item 3 -->
+          <div data-category="kopi" class="menu-item py-5 border-b border-emeraldLight/80 flex justify-between items-start gap-4 group">
+            <div>
+              <div class="flex items-center gap-2.5">
+                <h3 class="font-serif text-2xl md:text-[26px] text-sand group-hover:text-gold transition-colors">V60 Single Origin</h3>
+                <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-emeraldLight text-sand/90">Seasonal</span>
+              </div>
+              <p class="text-sand/70 text-sm md:text-[15px] font-light mt-1">
+                Biji berganti tiap musim panen (Gayo, Ciwidey, Flores). Tanya barista hari ini.
+              </p>
+            </div>
+            <span class="font-serif text-xl text-gold shrink-0 pt-1">32k</span>
+          </div>
+
+          <!-- Item 4 -->
+          <div data-category="kopi" class="menu-item py-5 border-b border-emeraldLight/80 flex justify-between items-start gap-4 group">
+            <div>
+              <h3 class="font-serif text-2xl md:text-[26px] text-sand group-hover:text-gold transition-colors">Flat White</h3>
+              <p class="text-sand/70 text-sm md:text-[15px] font-light mt-1">
+                Double ristretto dengan microfoam susu hangat yang lembut dan seimbang.
+              </p>
+            </div>
+            <span class="font-serif text-xl text-gold shrink-0 pt-1">30k</span>
+          </div>
+
+          <!-- Item 5 -->
+          <div data-category="nonkopi" class="menu-item py-5 border-b border-emeraldLight/80 flex justify-between items-start gap-4 group">
+            <div>
+              <h3 class="font-serif text-2xl md:text-[26px] text-sand group-hover:text-gold transition-colors">Uji Matcha Latte</h3>
+              <p class="text-sand/70 text-sm md:text-[15px] font-light mt-1">
+                Teh hijau ceremonial grade pilihan, umami, creamy, dan tidak terlalu manis.
+              </p>
+            </div>
+            <span class="font-serif text-xl text-gold shrink-0 pt-1">34k</span>
+          </div>
+
+          <!-- Item 6 -->
+          <div data-category="nonkopi" class="menu-item py-5 border-b border-emeraldLight/80 flex justify-between items-start gap-4 group">
+            <div>
+              <h3 class="font-serif text-2xl md:text-[26px] text-sand group-hover:text-gold transition-colors">Artisanal Earl Grey Milk Tea</h3>
+              <p class="text-sand/70 text-sm md:text-[15px] font-light mt-1">
+                Seduhan daun teh bergamot harum dengan sentuhan madu hutan dan susu.
+              </p>
+            </div>
+            <span class="font-serif text-xl text-gold shrink-0 pt-1">29k</span>
+          </div>
+
+          <!-- Item 7 -->
+          <div data-category="pastry" class="menu-item py-5 border-b border-emeraldLight/80 flex justify-between items-start gap-4 group">
+            <div>
+              <div class="flex items-center gap-2.5">
+                <h3 class="font-serif text-2xl md:text-[26px] text-sand group-hover:text-gold transition-colors">Butter Croissant & Pain au Chocolat</h3>
+                <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-gold/20 text-gold border border-gold/30">Fresh Bake</span>
+              </div>
+              <p class="text-sand/70 text-sm md:text-[15px] font-light mt-1">
+                Dipanggang hangat setiap pagi, renyah berlapis dan pas menemani kopimu.
+              </p>
+            </div>
+            <span class="font-serif text-xl text-gold shrink-0 pt-1">26k</span>
+          </div>
+
+          <!-- Item 8 -->
+          <div data-category="pastry" class="menu-item py-5 border-b border-emeraldLight/80 flex justify-between items-start gap-4 group">
+            <div>
+              <h3 class="font-serif text-2xl md:text-[26px] text-sand group-hover:text-gold transition-colors">Cinnamon Cardamom Bun</h3>
+              <p class="text-sand/70 text-sm md:text-[15px] font-light mt-1">
+                Roti lembut aroma kayu manis dan kapulaga dengan taburan gula palem.
+              </p>
+            </div>
+            <span class="font-serif text-xl text-gold shrink-0 pt-1">27k</span>
+          </div>
+        </div>
+
+        <p class="text-center text-sand/60 text-xs md:text-sm mt-10 font-light">
+          * Tersedia pilihan susu nabati (Oat Milk / Soy Milk) dengan tambahan +8k.
+        </p>
+      </div>
+    </section>
+
+    <!-- Philosophy / Values Section -->
+    <section id="filosofi" class="py-24 md:py-32 max-w-6xl mx-auto px-6 reveal">
+      <div class="text-center max-w-xl mx-auto mb-16">
+        <span class="uppercase tracking-[0.2em] text-gold font-medium text-xs block mb-3">
+          Nilai Kami
+        </span>
+        <h2 class="font-serif text-4xl md:text-5xl text-ink font-medium">
+          Tiga pilar di balik setiap sajian
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
+        <!-- Card 1 -->
+        <div class="bg-cardLight rounded-3xl p-8 md:p-9 border border-gold/35 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+          <div class="w-12 h-12 rounded-2xl bg-emeraldDark text-gold flex items-center justify-center mb-6">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+          </div>
+          <span class="font-serif text-sm text-gold italic">01. Hulu ke Hilir</span>
+          <h3 class="font-serif text-3xl text-ink mt-1 mb-3">Biji Pilihan</h3>
+          <p class="text-muted text-base font-light leading-relaxed">
+            Langsung dari petani yang kami kenal baik, dipilih secara selektif karena karakter rasa dan kejujuran proses pascapanennya.
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-cardLight rounded-3xl p-8 md:p-9 border border-gold/35 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+          <div class="w-12 h-12 rounded-2xl bg-emeraldDark text-gold flex items-center justify-center mb-6">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <span class="font-serif text-sm text-gold italic">02. Presisi & Sabar</span>
+          <h3 class="font-serif text-3xl text-ink mt-1 mb-3">Diseduh dengan Teliti</h3>
+          <p class="text-muted text-base font-light leading-relaxed">
+            Takaran gramasi, suhu air, dan waktu ekstraksi dijaga ketat supaya setiap cangkir yang sampai ke mejamu selalu konsisten.
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-cardLight rounded-3xl p-8 md:p-9 border border-gold/35 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+          <div class="w-12 h-12 rounded-2xl bg-emeraldDark text-gold flex items-center justify-center mb-6">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+          </div>
+          <span class="font-serif text-sm text-gold italic">03. Kenyamanan</span>
+          <h3 class="font-serif text-3xl text-ink mt-1 mb-3">Tempat untuk Berhenti</h3>
+          <p class="text-muted text-base font-light leading-relaxed">
+            Bekerja dengan tenang, berbincang akrab, membaca buku, atau sekadar diam menikmati sore. Semua mendapat ruang di sini.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ambience / Gallery Strip -->
+    <section id="galeri" class="pb-24 md:pb-32 max-w-6xl mx-auto px-6 reveal">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="md:col-span-2 h-72 md:h-96 rounded-2xl overflow-hidden relative group">
+          <img 
+            src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1200&q=80" 
+            alt="Suasana interior hangat di Kopi Ruang" 
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+            loading="lazy"
+          >
+          <div class="absolute inset-0 bg-gradient-to-t from-emeraldDark/70 via-transparent to-transparent flex items-end p-6">
+            <p class="text-sand font-serif italic text-xl">Sudut tenang dengan pencahayaan alami</p>
+          </div>
+        </div>
+        <div class="h-72 md:h-96 rounded-2xl overflow-hidden relative group">
+          <img 
+            src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80" 
+            alt="Secangkir latte art hangat" 
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+            loading="lazy"
+          >
+          <div class="absolute inset-0 bg-gradient-to-t from-emeraldDark/70 via-transparent to-transparent flex items-end p-6">
+            <p class="text-sand font-serif italic text-xl">Hangat di setiap tegukan</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visit / Location Section -->
+    <section id="kunjungi" class="bg-emeraldMid text-sand py-24 md:py-32 relative overflow-hidden">
+      <div class="max-w-4xl mx-auto px-6 text-center reveal">
+        <span class="uppercase tracking-[0.2em] text-gold text-xs font-medium block mb-3">
+          Temukan Kami
+        </span>
+        <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl font-medium mb-5">
+          Ruangnya sudah siap. <span class="italic text-gold">Tinggal kamu.</span>
+        </h2>
+        <p class="text-sand/80 text-base md:text-lg font-light max-w-md mx-auto mb-10">
+          Mampir hari ini dan coba kopi yang diseduh khusus untuk menemani harimu.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+          <a 
+            href="https://www.google.com/maps/search/?api=1&query=Kopi+Ruang" 
+            target="_blank" 
+            rel="noopener" 
+            class="w-full sm:w-auto px-8 py-4 rounded-full bg-gold text-emeraldDark font-medium hover:bg-goldLight transition-all duration-300 shadow-lg inline-flex items-center justify-center gap-2"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            Buka di Google Maps
+          </a>
+          <a 
+            href="https://instagram.com" 
+            target="_blank" 
+            rel="noopener" 
+            class="w-full sm:w-auto px-8 py-4 rounded-full border border-gold/50 text-gold hover:bg-gold/10 transition-all duration-300"
+          >
+            Ikuti @kopiruang
+          </a>
+        </div>
+
+        <!-- Info Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-10 border-t border-gold/20 text-center">
+          <div class="p-4">
+            <span class="block font-serif text-xl text-gold mb-1">Jam Buka</span>
+            <p class="text-sand/85 text-sm font-light">Setiap Hari<br>08.00 – 22.00 WIB</p>
+          </div>
+          <div class="p-4 sm:border-x border-gold/20">
+            <span class="block font-serif text-xl text-gold mb-1">Lokasi Kafe</span>
+            <p class="text-sand/85 text-sm font-light">Jl. Melawai Raya No. 18<br>Kebayoran Baru, Jakarta Selatan</p>
+          </div>
+          <div class="p-4">
+            <span class="block font-serif text-xl text-gold mb-1">Kontak & Reservasi</span>
+            <p class="text-sand/85 text-sm font-light">Instagram: @kopiruang<br>WhatsApp: +62 812-3456-7890</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-emeraldDark text-sand/60 border-t border-gold/15 py-10 px-6 text-center text-sm">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5 text-gold">
+        <svg class="w-6 h-6" viewBox="0 0 120 125" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M26 112V54C26 35.2223 41.2223 20 60 20C78.7777 20 94 35.2223 94 54V112" />
+          <line x1="12" y1="112" x2="108" y2="112" />
+          <path d="M43 82C46 98 54 103 61 103C68 103 74 96 74 83H43Z" />
+          <path d="M58 82C58 68 59 54 61 38" />
+          <path d="M58 75C51 73 46 67 45 60C52 60 57 66 58 75Z" />
+          <path d="M59 69C66 67 71 61 72 54C65 54 60 60 59 69Z" />
+        </svg>
+        <span class="font-sans text-sm tracking-[0.22em] uppercase">Kopİ Ruang</span>
+      </div>
+      <p>&copy; 2026 Kopi Ruang. Specialty Coffee Shop & Roastery.</p>
+      <a href="#" class="text-gold/80 hover:text-gold transition-colors text-xs uppercase tracking-widest">Kembali ke atas &uarr;</a>
+    </div>
+  </footer>
+
+  <!-- Interactive Scripts -->
+  <script>
+    // Mobile Menu Toggle
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    mobileBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    // Menu Category Filtering
+    const tabs = document.querySelectorAll('.menu-tab');
+    const items = document.querySelectorAll('.menu-item');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Update active tab styling
+        tabs.forEach(t => {
+          t.classList.remove('bg-gold', 'text-emeraldDark', 'font-medium');
+          t.classList.add('text-sand/80', 'font-normal');
+        });
+        tab.classList.add('bg-gold', 'text-emeraldDark', 'font-medium');
+        tab.classList.remove('text-sand/80', 'font-normal');
+
+        const filter = tab.getAttribute('data-filter');
+
+        items.forEach(item => {
+          const category = item.getAttribute('data-category');
+          if (filter === 'all' || filter === category) {
+            item.style.display = 'flex';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Scroll Reveal Animation
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealOnScroll = () => {
+      const windowHeight = window.innerHeight;
+      revealElements.forEach(el => {
+        const elementTop = el.getBoundingClientRect().top;
+        if (elementTop < windowHeight - 80) {
+          el.classList.add('active');
+        }
+      });
+    };
+
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+  </script>
+</body>
+</html>
